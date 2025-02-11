@@ -18,7 +18,7 @@ target_link_libraries(ocl_test PRIVATE
 target_link_libraries(ocl_test PRIVATE ${OpenCL_LIBRARIES})
 
 target_include_directories(ocl_test PUBLIC
-	                       #${PROJECT_SOURCE_DIR}/includes
+	                       ${PROJECT_SOURCE_DIR}/include
 						   ${PROJECT_SOURCE_DIR}/e2e_test)
 
 add_definitions(-DCL_HPP_TARGET_OPENCL_VERSION=300)
