@@ -36,14 +36,9 @@ int main() try
     OCL::OclApp<int> app { "kernels/bitonic_sort.cl", "bitonicSort", data }; 
     BitonicSort::GpuBitonicSort<int> bsrt = { app, data  };
     
-    auto start = std::chrono::high_resolution_clock::now();
     bsrt.sort( data );
-    auto end = std::chrono::high_resolution_clock::now();
-    double elapsed_time = std::chrono::duration<double, std::milli>(end - start).count();
 
     printArray(data, original_size);
-
-    std::cout << "Время работы на GPU: " << elapsed_time << " мс" << std::endl;
 
     return 0;
 }
