@@ -47,22 +47,8 @@ void get_result ( OCL::OclApp<T> app, std::size_t new_size )
     }
 }
 
-void get_answer ( const std::string& filename)
+void get_answer ( std::vector<int> &ans )
 {
-    std::vector<int> ans = {};
-    std::ifstream file ( filename );
-    if (!file) {
-        std::cout << "error\n";
-        exit(1);
-    }
-
-    int data_size = 0;
-    file >> data_size;
-    for ( int i = 0, element = 0; i < data_size; ++i ) {
-        file >> element;
-        ans.push_back ( element );
-    }
-
     std::sort( ans.begin(), ans.end() );
 }
 
@@ -98,9 +84,22 @@ static void BM_BitSort(benchmark::State& state) {
 }
 
 static void BM_Sort(benchmark::State& state) {
+    std::ifstream file ( "../tests/test3.txt" );
+    if (!file) {
+        std::cout << "error\n";
+        exit(1);
+    }
+
+    int data_size = 0;
+    file >> data_size;
+    std::vector<int> ans = {};
+    for ( int i = 0, element = 0; i < data_size; ++i ) {
+        file >> element;
+        ans.push_back ( element );
+    }
+
     for (auto _ : state) {
-        const std::string path = "../tests/test3.txt";
-        get_answer ( path );
+        get_answer ( ans );
     }
 }
 
