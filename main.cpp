@@ -7,11 +7,6 @@
 #include "include/ocl.hpp"
 #include "include/bitsort.hpp"
 
-void printArray(const std::vector<int>& arr, int size) {
-    for (int i = 0; i < size; i++) std::cout << arr[i] << " ";
-    std::cout << std::endl;
-}
-
 int next_power_of_two(int n) {
     return std::pow ( 2, std::ceil(std::log2(n)) );
 }
@@ -20,12 +15,12 @@ int main() try
 {
     std::size_t original_size = 0;
     std::cin >> original_size;
-    if ( original_size <= 0 ) { throw std::runtime_error ( "Error: invalid size\n"); }
+    if ( original_size <= 0 ) { throw std::runtime_error ( "Error: invalid size"); }
 
     std::vector<int> data = {};
-    for ( int i = 0, element = 0; i < original_size; ++i ) {
+    for ( std::size_t i = 0, element = 0; i < original_size; ++i ) {
         std::cin >> element;
-        if ( !std::cin.good() ) { throw std::runtime_error ( "Error : invalid argumnet\n" ); }
+        if ( !std::cin.good() ) { throw std::runtime_error ( "Error : invalid argumnet" ); }
         data.push_back ( element );
     }
 
@@ -38,11 +33,14 @@ int main() try
     
     bsrt.sort( data );
 
-    printArray(data, original_size);
+    for ( std::size_t i = 0; i < original_size; ++i ) std::cout << data[i] << " ";
+    std::cout << std::endl;
 
     return 0;
 }
 catch(const std::exception& exceptions )
 {
-    std::cerr << exceptions.what() << std::endl;
+    std::cerr << exceptions.what() << '\n';
+    return 1;
 }
+catch (...) {}

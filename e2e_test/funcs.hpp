@@ -55,12 +55,11 @@ namespace test_funcs
         OCL::OclApp<T> app { kernelpath, "bitonicSort", data };
 
         CHECK_ERR(app.kernel().setArg(0, app.buffer()), "Ошибка в setArg(0" );
-        CHECK_ERR(app.kernel().setArg(1, static_cast<int>(new_size)), "Ошибка в setArg(1)" );
 
         for (int stage = 2; stage <= new_size; stage *= 2) {
             for (int step = stage / 2; step > 0; step /= 2) {
-                app.kernel().setArg(2, stage);
-                app.kernel().setArg(3, step);
+                app.kernel().setArg(1, stage);
+                app.kernel().setArg(2, step);
                 CHECK_ERR(app.queue().enqueueNDRangeKernel(app.kernel(), cl::NullRange,  cl::NDRange(new_size), cl::NullRange),  "enqueueNDRangeKernel");
                 app.queue().finish();
             }
@@ -101,7 +100,6 @@ namespace test_funcs
         std::vector<T> ans;
 		get_answer(test_path, ans);
 
-        //EXPECT_TRUE(res.size() == ans.size());
         for (int i = 0; i < ans.size(); i++)
         {
             EXPECT_EQ(res[i], ans[i]);

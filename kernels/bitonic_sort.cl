@@ -1,4 +1,4 @@
-__kernel void bitonicSort(__global int* data, int N, int stage, int step) {
+__kernel void bitonicSort(__global int* data, int stage, int step) {
     int id = get_global_id(0);
     
     int pairIdx = id ^ step; // Определяем пару для сравнения
