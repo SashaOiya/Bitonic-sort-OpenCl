@@ -3,13 +3,10 @@
 #include <fstream>
 #include <cmath>
 #include <limits>
+#include <bit>
 
-#include "include/ocl.hpp"
+//#include "include/ocl.hpp"
 #include "include/bitsort.hpp"
-
-int next_power_of_two(int n) {
-    return std::pow ( 2, std::ceil(std::log2(n)) );
-}
 
 int main() try
 {
@@ -18,13 +15,13 @@ int main() try
     if ( original_size <= 0 ) { throw std::runtime_error ( "Error: invalid size"); }
 
     std::vector<int> data = {};
-    for ( std::size_t i = 0, element = 0; i < original_size; ++i ) {
+    for ( int i = 0, element = 0; i < original_size; ++i ) {
         std::cin >> element;
         if ( !std::cin.good() ) { throw std::runtime_error ( "Error : invalid argumnet" ); }
         data.push_back ( element );
     }
 
-    std::size_t new_size = next_power_of_two ( original_size );
+    std::size_t new_size = std::bit_ceil ( original_size );
     data.resize ( new_size, std::numeric_limits<int>::max() );
 
     //const OCL::OclPlatform platform = {};
@@ -38,9 +35,13 @@ int main() try
 
     return 0;
 }
-catch(const std::exception& exceptions )
+catch(const std::exception& exception )
 {
-    std::cerr << exceptions.what() << '\n';
+    std::cerr << exception.what() << '\n';
     return 1;
 }
-catch (...) {}
+catch (...) 
+{
+    std::cerr << "Caught unknown exception\n";
+    return 1;
+}

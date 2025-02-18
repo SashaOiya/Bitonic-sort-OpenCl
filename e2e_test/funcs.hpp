@@ -19,11 +19,6 @@ namespace test_funcs
 {
     using T = int;
 
-    size_t next_power_of_two ( const size_t n )
-    {
-        return std::pow(2, std::ceil(std::log2(n)));
-    }
-
     int compare(const void* a, const void* b) {
         int int_a = *(int*)a;
         int int_b = *(int*)b;
@@ -49,7 +44,7 @@ namespace test_funcs
             data.push_back ( element );
         }
 
-        std::size_t new_size = next_power_of_two ( original_size );
+        std::size_t new_size = std::bit_ceil ( original_size );
         data.resize ( new_size, std::numeric_limits<T>::max() );
 
         OCL::OclApp<T> app { kernelpath, "bitonicSort", data };
